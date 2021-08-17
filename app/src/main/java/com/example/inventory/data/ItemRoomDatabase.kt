@@ -41,7 +41,8 @@ abstract class ItemRoomDatabase : RoomDatabase() {
                     // Create the database instance
                     .build()
                 INSTANCE = instance
-                return instance
+                // return instance
+                instance
             }
         }
     }
