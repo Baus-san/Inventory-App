@@ -1,8 +1,6 @@
 package com.example.inventory
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.example.inventory.data.Item
 import com.example.inventory.data.ItemDao
 import kotlinx.coroutines.launch
@@ -14,6 +12,9 @@ import kotlinx.coroutines.launch
  * you'll do that using coroutines and viewModelScope.
  */
 class InventoryViewModel(private val itemDao: ItemDao) : ViewModel() {
+    // Cache all items form the database using LiveData.
+    val allItems: LiveData<List<Item>> = itemDao.getItems().asLiveData()
+
     /**
      * Launching a new coroutine to insert an item in a non-blocking way
      */
