@@ -61,6 +61,33 @@ class InventoryViewModel(private val itemDao: ItemDao) : ViewModel() {
     fun retrieveItem(id: Int): LiveData<Item> {
         return itemDao.getItem(id).asLiveData()
     }
+
+    /**
+     * Launching a new coroutine to update an item in a non-blocking way
+     */
+    private fun updateItem(item: Item) {
+        viewModelScope.launch {
+            itemDao.update(item)
+        }
+    }
+
+    /**
+     * Decreases the stock by one unit and updates the database.
+     */
+    fun sellItem(item: Item) {
+        if (item.quantityInStock > 0) {
+            // Decrease the quantity by 1
+            val newItem = item.copy(quantityInStock = item.quantityInStock - 1)
+            updateItem(newItem)
+        }
+    }
+
+    /**
+     * Returns true if stock is available to sell, false otherwise.
+     */
+    fun isStockAvailable(item: Item): Boolean {
+        return (item.quantityInStock > 0)
+    }
 }
 
 /**
