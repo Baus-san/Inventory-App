@@ -52,7 +52,10 @@ class ItemListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val adapter = ItemListAdapter { }
+        val adapter = ItemListAdapter {
+            val action = ItemListFragmentDirections.actionItemListFragmentToItemDetailFragment(it.id)
+            this.findNavController().navigate(action)
+        }
         // Attach an observer on the allItems list to update the UI automatically when the data
         // changes.
         viewModel.allItems.observe(this.viewLifecycleOwner) { items ->
